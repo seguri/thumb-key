@@ -18,5 +18,5 @@ dependencyResolutionManagement {
         maven { url 'https://jitpack.io' }
     }
 }
-rootProject.name = "com.dessalines.thumbkey"
+rootProject.name = "name.seguri.android.thumbkey"
 include ':app'

@@ -10,7 +10,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.dessalines.thumbkey"
+        applicationId "name.seguri.android.thumbkey"
         minSdk 21
         targetSdkVersion 34
         versionCode 91
@@ -63,7 +63,7 @@ android {
     buildFeatures {
         compose true
     }
-    namespace 'com.dessalines.thumbkey'
+    namespace 'name.seguri.android.thumbkey'
 }
 
 composeCompiler {
