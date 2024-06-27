@@ -10,11 +10,14 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -123,9 +127,12 @@ fun KeyboardScreen(
     val autoCapitalize = (settings?.autoCapitalize ?: DEFAULT_AUTO_CAPITALIZE).toBool()
     val spacebarMultiTaps = (settings?.spacebarMultiTaps ?: DEFAULT_SPACEBAR_MULTITAPS).toBool()
     val slideEnabled = (settings?.slideEnabled ?: DEFAULT_SLIDE_ENABLED).toBool()
-    val slideCursorMovementMode = (settings?.slideCursorMovementMode ?: DEFAULT_SLIDE_CURSOR_MOVEMENT_MODE)
-    val slideSpacebarDeadzoneEnabled = (settings?.slideSpacebarDeadzoneEnabled ?: DEFAULT_SLIDE_SPACEBAR_DEADZONE_ENABLED).toBool()
-    val slideBackspaceDeadzoneEnabled = (settings?.slideBackspaceDeadzoneEnabled ?: DEFAULT_SLIDE_BACKSPACE_DEADZONE_ENABLED).toBool()
+    val slideCursorMovementMode =
+        (settings?.slideCursorMovementMode ?: DEFAULT_SLIDE_CURSOR_MOVEMENT_MODE)
+    val slideSpacebarDeadzoneEnabled =
+        (settings?.slideSpacebarDeadzoneEnabled ?: DEFAULT_SLIDE_SPACEBAR_DEADZONE_ENABLED).toBool()
+    val slideBackspaceDeadzoneEnabled = (settings?.slideBackspaceDeadzoneEnabled
+        ?: DEFAULT_SLIDE_BACKSPACE_DEADZONE_ENABLED).toBool()
     val keyBorderWidth = (settings?.keyBorderWidth ?: DEFAULT_KEY_BORDER_WIDTH)
     val vibrateOnTap = (settings?.vibrateOnTap ?: DEFAULT_VIBRATE_ON_TAP).toBool()
     val soundOnTap = (settings?.soundOnTap ?: DEFAULT_SOUND_ON_TAP).toBool()
@@ -139,10 +146,13 @@ fun KeyboardScreen(
     val legendWidth = settings?.keyWidth ?: legendHeight
     val keyRadius = settings?.keyRadius ?: DEFAULT_KEY_RADIUS
     val dragReturnEnabled = (settings?.dragReturnEnabled ?: DEFAULT_DRAG_RETURN_ENABLED).toBool()
-    val circularDragEnabled = (settings?.circularDragEnabled ?: DEFAULT_CIRCULAR_DRAG_ENABLED).toBool()
-    val clockwiseDragAction = CircularDragAction.entries[settings?.clockwiseDragAction ?: DEFAULT_CLOCKWISE_DRAG_ACTION]
+    val circularDragEnabled =
+        (settings?.circularDragEnabled ?: DEFAULT_CIRCULAR_DRAG_ENABLED).toBool()
+    val clockwiseDragAction =
+        CircularDragAction.entries[settings?.clockwiseDragAction ?: DEFAULT_CLOCKWISE_DRAG_ACTION]
     val counterclockwiseDragAction =
-        CircularDragAction.entries[settings?.counterclockwiseDragAction ?: DEFAULT_COUNTERCLOCKWISE_DRAG_ACTION]
+        CircularDragAction.entries[settings?.counterclockwiseDragAction
+            ?: DEFAULT_COUNTERCLOCKWISE_DRAG_ACTION]
 
     val keyBorderWidthFloat = keyBorderWidth / 10.0f
     val keyBorderColour = MaterialTheme.colorScheme.outline
@@ -151,64 +161,65 @@ fun KeyboardScreen(
     val cornerRadius = (keyRadius / 100.0f) * ((keyWidth + keyHeight) / 4.0f)
 
     if (mode == KeyboardMode.EMOJI) {
-        val controllerKeys = listOf(EMOJI_BACK_KEY_ITEM, NUMERIC_KEY_ITEM, BACKSPACE_KEY_ITEM, RETURN_KEY_ITEM)
+        val controllerKeys =
+            listOf(EMOJI_BACK_KEY_ITEM, NUMERIC_KEY_ITEM, BACKSPACE_KEY_ITEM, RETURN_KEY_ITEM)
         val keyboardHeight = Dp((keyHeight * controllerKeys.size) - (keyPadding * 2))
 
         ctx.currentInputConnection.requestCursorUpdates(0)
 
         Box(
             modifier =
-                Modifier
-                    .then(
-                        if (backdropEnabled) {
-                            Modifier.background(backdropColor)
-                        } else {
-                            (Modifier)
-                        },
-                    ),
+            Modifier
+                .then(
+                    if (backdropEnabled) {
+                        Modifier.background(backdropColor)
+                    } else {
+                        (Modifier)
+                    },
+                ),
         ) {
             // adds a pretty line if you're using the backdrop
             if (backdropEnabled) {
                 Box(
                     modifier =
-                        Modifier
-                            .align(Alignment.TopCenter)
-                            .fillMaxWidth()
-                            .height(1.dp)
-                            .background(color = MaterialTheme.colorScheme.surfaceVariant),
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .fillMaxWidth()
+                        .height(1.dp)
+                        .background(color = MaterialTheme.colorScheme.surfaceVariant),
                 )
             }
             Row(
                 modifier =
-                    Modifier
-                        .padding(bottom = pushupSizeDp)
-                        .fillMaxWidth()
-                        .then(
-                            if (backdropEnabled) {
-                                Modifier.padding(top = backdropPadding)
-                            } else {
-                                (Modifier)
-                            },
-                        ),
+                Modifier
+                    .padding(bottom = pushupSizeDp)
+                    .fillMaxWidth()
+                    .then(
+                        if (backdropEnabled) {
+                            Modifier.padding(top = backdropPadding)
+                        } else {
+                            (Modifier)
+                        },
+                    ),
             ) {
                 Box(
                     modifier =
-                        Modifier
-                            .weight(1f) // Take up available space equally
-                            .padding(keyPadding.dp)
-                            .clip(RoundedCornerShape(cornerRadius.dp))
-                            .then(
-                                if (keyBorderWidthFloat > 0.0) {
-                                    Modifier.border(
-                                        keyBorderWidthFloat.dp,
-                                        keyBorderColour,
-                                        shape = RoundedCornerShape(cornerRadius.dp),
-                                    )
-                                } else {
-                                    (Modifier)
-                                },
-                            )
-                            .background(MaterialTheme.colorScheme.surface),
+                    Modifier
+                        .weight(1f) // Take up available space equally
+                        .padding(keyPadding.dp)
+                        .clip(RoundedCornerShape(cornerRadius.dp))
+                        .then(
+                            if (keyBorderWidthFloat > 0.0) {
+                                Modifier.border(
+                                    keyBorderWidthFloat.dp,
+                                    keyBorderColour,
+                                    shape = RoundedCornerShape(cornerRadius.dp),
+                                )
+                            } else {
+                                (Modifier)
+                            },
+                        )
+                        .background(MaterialTheme.colorScheme.surface),
                 ) {
                     val view = LocalView.current
                     val audioManager = ctx.getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -231,9 +242,9 @@ fun KeyboardScreen(
                             emojiPicker
                         },
                         modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .height(keyboardHeight),
+                        Modifier
+                            .fillMaxWidth()
+                            .height(keyboardHeight),
                     )
                 }
                 Column {
@@ -258,13 +269,15 @@ fun KeyboardScreen(
                                 hideSymbols = hideSymbols,
                                 capsLock = capsLock,
                                 animationSpeed =
-                                    settings?.animationSpeed
-                                        ?: DEFAULT_ANIMATION_SPEED,
+                                settings?.animationSpeed
+                                    ?: DEFAULT_ANIMATION_SPEED,
                                 animationHelperSpeed =
-                                    settings?.animationHelperSpeed
-                                        ?: DEFAULT_ANIMATION_HELPER_SPEED,
-                                minSwipeLength = settings?.minSwipeLength ?: DEFAULT_MIN_SWIPE_LENGTH,
-                                slideSensitivity = settings?.slideSensitivity ?: DEFAULT_SLIDE_SENSITIVITY,
+                                settings?.animationHelperSpeed
+                                    ?: DEFAULT_ANIMATION_HELPER_SPEED,
+                                minSwipeLength = settings?.minSwipeLength
+                                    ?: DEFAULT_MIN_SWIPE_LENGTH,
+                                slideSensitivity = settings?.slideSensitivity
+                                    ?: DEFAULT_SLIDE_SENSITIVITY,
                                 slideEnabled = slideEnabled,
                                 slideCursorMovementMode = slideCursorMovementMode,
                                 slideSpacebarDeadzoneEnabled = slideSpacebarDeadzoneEnabled,
@@ -330,35 +343,24 @@ fun KeyboardScreen(
             Log.d(TAG, "request for cursor updates failed, cursor updates will not be provided")
         }
 
-        Box(
-            contentAlignment = alignment,
-            modifier =
-                Modifier
-                    .then(if (backdropEnabled) Modifier.background(backdropColor) else (Modifier))
-                    .padding(bottom = pushupSizeDp),
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(keyHeight.dp * 4)
+                .background(MaterialTheme.colorScheme.background)
         ) {
-            // adds a pretty line if you're using the backdrop
-            if (backdropEnabled) {
-                Box(
-                    modifier =
-                        Modifier
-                            .align(Alignment.TopCenter)
-                            .fillMaxWidth()
-                            .height(1.dp)
-                            .background(color = MaterialTheme.colorScheme.surfaceVariant),
-                )
-            }
             Column(
-                modifier =
-                    Modifier
-                        .then(
-                            if (backdropEnabled) {
-                                Modifier.padding(top = backdropPadding)
-                            } else {
-                                (Modifier)
-                            },
-                        ),
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxHeight()
             ) {
+                SuggestionButton(text = "Supercalifragilisti")
+                SuggestionButton(text = "Perché")
+                SuggestionButton(text = "Però")
+                SuggestionButton(text = "Comunque")
+                SuggestionButton(text = "Purtroppo")
+            }
+            Column(modifier = Modifier.fillMaxHeight()) {
                 keyboard.arr.forEachIndexed { i, row ->
                     Row {
                         row.forEachIndexed { j, key ->
@@ -382,13 +384,15 @@ fun KeyboardScreen(
                                     hideSymbols = hideSymbols,
                                     capsLock = capsLock,
                                     animationSpeed =
-                                        settings?.animationSpeed
-                                            ?: DEFAULT_ANIMATION_SPEED,
+                                    settings?.animationSpeed
+                                        ?: DEFAULT_ANIMATION_SPEED,
                                     animationHelperSpeed =
-                                        settings?.animationHelperSpeed
-                                            ?: DEFAULT_ANIMATION_HELPER_SPEED,
-                                    minSwipeLength = settings?.minSwipeLength ?: DEFAULT_MIN_SWIPE_LENGTH,
-                                    slideSensitivity = settings?.slideSensitivity ?: DEFAULT_SLIDE_SENSITIVITY,
+                                    settings?.animationHelperSpeed
+                                        ?: DEFAULT_ANIMATION_HELPER_SPEED,
+                                    minSwipeLength = settings?.minSwipeLength
+                                        ?: DEFAULT_MIN_SWIPE_LENGTH,
+                                    slideSensitivity = settings?.slideSensitivity
+                                        ?: DEFAULT_SLIDE_SENSITIVITY,
                                     slideEnabled = slideEnabled,
                                     slideCursorMovementMode = slideCursorMovementMode,
                                     slideSpacebarDeadzoneEnabled = slideSpacebarDeadzoneEnabled,
@@ -434,18 +438,19 @@ fun KeyboardScreen(
                                     onSwitchLanguage = onSwitchLanguage,
                                     onSwitchPosition = onSwitchPosition,
                                     oppositeCaseKey =
-                                        when (mode) {
-                                            KeyboardMode.MAIN -> keyboardDefinition.modes.shifted
-                                            KeyboardMode.SHIFTED -> keyboardDefinition.modes.main
-                                            else -> null
-                                        }?.arr?.getOrNull(i)?.getOrNull(j),
+                                    when (mode) {
+                                        KeyboardMode.MAIN -> keyboardDefinition.modes.shifted
+                                        KeyboardMode.SHIFTED -> keyboardDefinition.modes.main
+                                        else -> null
+                                    }?.arr?.getOrNull(i)?.getOrNull(j),
                                     numericKey =
-                                        when (mode) {
-                                            KeyboardMode.MAIN, KeyboardMode.SHIFTED ->
-                                                keyboardDefinition.modes.numeric.arr
-                                                    .getOrNull(i)?.getOrNull(j)
-                                            else -> null
-                                        },
+                                    when (mode) {
+                                        KeyboardMode.MAIN, KeyboardMode.SHIFTED ->
+                                            keyboardDefinition.modes.numeric.arr
+                                                .getOrNull(i)?.getOrNull(j)
+
+                                        else -> null
+                                    },
                                     dragReturnEnabled = dragReturnEnabled,
                                     circularDragEnabled = circularDragEnabled,
                                     clockwiseDragAction = clockwiseDragAction,
