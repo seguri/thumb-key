@@ -337,8 +337,13 @@ fun performKeyAction(
     when (action) {
         is KeyAction.CommitText -> {
             val text = action.text
-            Log.d(TAG, "emitting key event: $text")
             KeyEventEmitter.emitKeyEvent(text[0])
+        }
+        is KeyAction.SendEvent -> {
+            val isDelete = action.event.keyCode == KeyEvent.KEYCODE_DEL
+            if (isDelete) {
+                KeyEventEmitter.emitKeyEvent('\u007F')
+            }
         }
         is KeyAction.ToggleNumericMode -> {
             // Do nothing

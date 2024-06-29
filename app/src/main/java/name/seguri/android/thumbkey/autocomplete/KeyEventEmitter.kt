@@ -25,6 +25,7 @@ object KeyEventEmitter {
     private fun updateCurrentWord(char: Char) {
         when {
             char.isLetter() -> _currentWord.value += char.lowercaseChar()
+            char == '\u007F' -> _currentWord.value = _currentWord.value.dropLast(1)
             else -> _currentWord.value = ""
         }
     }
