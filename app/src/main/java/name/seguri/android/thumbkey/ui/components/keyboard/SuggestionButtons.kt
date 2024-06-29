@@ -9,7 +9,5 @@ import name.seguri.android.thumbkey.autocomplete.AutoCompleteEngine
 fun SuggestionButtons() {
     val suggestions by AutoCompleteEngine.suggestions.collectAsState()
 
-    suggestions.forEach { text ->
-        SuggestionButton(text = text)
-    }
+    suggestions.forEach { SuggestionButton(it) }
 }

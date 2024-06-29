@@ -11,7 +11,7 @@ This fork displays autocompletion on the left of the keyboard.
 - [x] The engine must be able to distinguish between a new word and a new character in the current word 
 - [x] Display five dynamic text based on the current word ("wor1", "wor2", etc.)
 - [x] Import a working Kotlin Trie (prefix-tree) implementation
-- [ ] The engine must send the word to be displayed in the button and the text to be entered on click (suggestion minus what has been typed)
+- [x] The engine must send the word to be displayed in the button and the text to be entered on click (suggestion minus what has been typed)
   - If you really only complete words, just insert what remains of the word
     - No need to manage capitalization as you will never start from the beginning of a word
   - If you wanna do something smart like replacing "xk" with "perché", you must delete existing text

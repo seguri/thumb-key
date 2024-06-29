@@ -340,6 +340,12 @@ fun performKeyAction(
             Log.d(TAG, "emitting key event: $text")
             KeyEventEmitter.emitKeyEvent(text[0])
         }
+        is KeyAction.ToggleNumericMode -> {
+            // Do nothing
+        }
+        is KeyAction.ToggleShiftMode -> {
+            // Do nothing
+        }
         else -> {
             Log.d(TAG, "Key action not supported: $action")
             KeyEventEmitter.emitKeyEvent('\u0000')
