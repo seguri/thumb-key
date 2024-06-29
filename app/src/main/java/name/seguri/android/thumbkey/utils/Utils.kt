@@ -43,6 +43,7 @@ import name.seguri.android.thumbkey.db.DEFAULT_KEYBOARD_LAYOUT
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import name.seguri.android.thumbkey.autocomplete.KeyEventEmitter
 import java.text.NumberFormat
 import kotlin.math.PI
 import kotlin.math.abs
@@ -333,6 +334,18 @@ fun performKeyAction(
     onSwitchLanguage: () -> Unit,
     onSwitchPosition: () -> Unit,
 ) {
+    when (action) {
+        is KeyAction.CommitText -> {
+            val text = action.text
+            Log.d(TAG, "emitting key event: $text")
+            KeyEventEmitter.emitKeyEvent(text[0])
+        }
+        else -> {
+            Log.d(TAG, "Key action not supported: $action")
+            KeyEventEmitter.emitKeyEvent('\u0000')
+        }
+    }
+
     when (action) {
         is KeyAction.CommitText -> {
             val text = action.text

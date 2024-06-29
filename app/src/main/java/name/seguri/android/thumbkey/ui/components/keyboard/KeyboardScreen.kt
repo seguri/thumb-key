@@ -354,11 +354,7 @@ fun KeyboardScreen(
                     .weight(1f)
                     .fillMaxHeight()
             ) {
-                SuggestionButton(text = "Supercalifragilisti")
-                SuggestionButton(text = "Perché")
-                SuggestionButton(text = "Però")
-                SuggestionButton(text = "Comunque")
-                SuggestionButton(text = "Purtroppo")
+                SuggestionButtons()
             }
             Column(modifier = Modifier.fillMaxHeight()) {
                 keyboard.arr.forEachIndexed { i, row ->

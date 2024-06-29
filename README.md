@@ -7,9 +7,9 @@ This fork displays autocompletion on the left of the keyboard.
 - [x] Move app to a new package
 - [x] Display static text on the left of the keyboard
 - [x] Insert static text where the cursor is
-- [ ] Define an AutoCompleteEngine that receives input events
-- [ ] The engine must be able to distinguish between a new word and a new character in the current word 
-- [ ] Display five dynamic text based on the current word ("wor1", "wor2", etc.)
+- [x] Define an AutoCompleteEngine that receives input events
+- [x] The engine must be able to distinguish between a new word and a new character in the current word 
+- [x] Display five dynamic text based on the current word ("wor1", "wor2", etc.)
 - [ ] Import a working Kotlin Trie (prefix-tree) implementation
 - [ ] The engine must send the word to be displayed in the button and the text to be entered on click (suggestion minus what has been typed)
   - If you really only complete words, just insert what remains of the word
